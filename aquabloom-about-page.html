@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AquaBloom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-green: #7fb069;
+            --light-green: #a8d890;
+            --dark-green: #5a8f4f;
+            --cream: #fffbf0;
+            --earth: #8b7355;
+            --water-blue: #b8d4d8;
+            --tech-blue: #4a90e2;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cream);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        nav {
+            position: fixed;
+            width: 100%;
+            background: rgba(255, 251, 240, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--dark-green);
+        }
+        
+        .logo h1 { font-size: 1.8rem; font-weight: 700; }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-green);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after { width: 100%; }
+        
+        .about-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-green), var(--primary-green));
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+        
+        .about-hero-content {
+            text-align: center;
+            z-index: 2;
+            color: white;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .about-hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-hero p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        section {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--earth);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-green);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 4rem auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--light-green), var(--primary-green));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin: 4rem 0;
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timeline-item:nth-child(1) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.8s; }
+        
+        .timeline-item.left .timeline-content {
+            margin-right: 55%;
+            text-align: right;
+        }
+        
+        .timeline-item.right .timeline-content {
+            margin-left: 55%;
+            text-align: left;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            top: 50%;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 10px var(--cream), 0 5px 20px rgba(0,0,0,0.2);
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .timeline-item.left .timeline-icon { right: -10%; }
+        .timeline-item.right .timeline-icon { left: -10%; }
+        
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+        
+        .stats-section {
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            padding: 6rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+        }
+        
+        footer {
+            background: var(--dark-green);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--light-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover { color: white; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .about-hero h1 { font-size: 2.5rem; }
+            .timeline::before { left: 30px; }
+            .timeline-item.left .timeline-content,
+            .timeline-item.right .timeline-content {
+                margin-left: 80px;
+                margin-right: 0;
+                text-align: left;
+            }
+            .timeline-item.left .timeline-icon,
+            .timeline-item.right .timeline-icon {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1>🌱 AquaBloom</h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#impact">Impact</a></li>
+                <li><a href="index.html#ai-tool">AI Plant ID</a></li>
+                <li><a href="index.html#products">Products</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <h1>Our Story</h1>
+            <p>Two visionary startups. One revolutionary mission. The future of farming.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">The Birth of AquaBloom</h2>
+        <p class="section-subtitle">When innovation meets innovation, revolutionary solutions are born</p>
+
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-icon">🏆</div>
+                    <h3>2021 - AquaFarm Founded</h3>
+                    <p>AquaFarm emerged as a pioneer in hydroponic water management systems, developing proprietary AI algorithms for water optimization and nutrient delivery. Winner of the TechCrunch Disrupt Startup Battlefield.</p>
+                    <div class="achievement-badge">
+                        TechCrunch Disrupt Winner
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-icon">🏆</div>
+                    <h3>2022 - HydroBloom Founded</h3>
+                    <p>HydroBloom revolutionized vertical farming with their modular, stackable grow box design. Their innovative approach to space-efficient agriculture won the Y Combinator Demo Day People's Choice Award.</p>
+                    <div class="achievement-badge">
+                        Y Combinator Winner
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-icon">🤝</div>
+                    <h3>2023 - Strategic Partnership</h3>
+                    <p>Recognizing the complementary nature of their technologies, both companies began collaborating on joint projects. Their combined expertise created breakthrough solutions that neither could achieve alone.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-icon">⭐</div>
+                    <h3>2024 - The Merger: AquaBloom is Born</h3>
+                    <p>In a landmark merger, AquaFarm and HydroBloom officially joined forces to create AquaBloom. The union combined AquaFarm's advanced AI water management with HydroBloom's revolutionary vertical farming architecture, creating the most advanced hydroponic farming system ever developed.</p>
+                    <div class="achievement-badge" style="background: linear-gradient(135deg, var(--primary-green), var(--light-green)); color: white;">
+                        Revolutionary Merger
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="10000">0</div>
+                <div class="stat-label">Grow Boxes Deployed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Countries Worldwide</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="2500000">0</div>
+                <div class="stat-label">Plants Grown Successfully</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="90">0</div>
+                <div class="stat-label">% Water Savings</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="index.html#impact">Environmental Impact</a>
+            <a href="index.html#ai-tool">AI Plant Tool</a>
+            <a href="index.html#products">Products</a>
+        </div>
+        <p>&copy; 2024 AquaBloom. Building a sustainable future, one farm at a time.</p>
+    </footer>
+
+    <script>
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const duration = 2000;
+            const stepTime = duration / 100;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, stepTime);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target.querySelector('.stat-number');
+                    if (statNumber && !statNumber.classList.contains('animated')) {
+                        statNumber.classList.add('animated');
+                        const target = parseInt(statNumber.getAttribute('data-target'));
+                        animateCounter(statNumber, target);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

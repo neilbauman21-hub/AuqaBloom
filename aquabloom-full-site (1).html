@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaBloom - AI-Powered Vertical Farming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-green: #7fb069;
+            --light-green: #a8d890;
+            --dark-green: #5a8f4f;
+            --cream: #fffbf0;
+            --earth: #8b7355;
+            --water-blue: #b8d4d8;
+            --tech-blue: #4a90e2;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cream);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        nav {
+            position: fixed;
+            width: 100%;
+            background: rgba(255, 251, 240, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled { padding: 1rem 5%; }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--dark-green);
+        }
+        
+        .logo h1 { font-size: 1.8rem; font-weight: 700; }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-green);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after { width: 100%; }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .water-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(180deg, transparent, var(--water-blue));
+            opacity: 0.3;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,100 600,50 T1200,50 L1200,120 L0,120 Z" fill="%237fb069" opacity="0.2"/></svg>') repeat-x;
+            animation: wave 15s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .floating-plants {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .plant {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.4;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .plant:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .plant:nth-child(2) { top: 60%; right: 15%; animation-delay: 1s; }
+        .plant:nth-child(3) { top: 40%; left: 80%; animation-delay: 2s; }
+        .plant:nth-child(4) { top: 70%; left: 30%; animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            padding: 0 5%;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .hero h2 {
+            font-size: 4rem;
+            color: var(--dark-green);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h2::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-green), var(--tech-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--earth);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--primary-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(127, 176, 105, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(127, 176, 105, 0.4);
+            background: var(--dark-green);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+
+        .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--primary-green);
+            border-radius: 15px;
+            position: relative;
+            margin: 0 auto 10px;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background: var(--primary-green);
+            border-radius: 2px;
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator p {
+            font-size: 0.9rem;
+            color: var(--dark-green);
+            font-weight: 500;
+        }
+        
+        section {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+            animation: titlePop 0.6s ease;
+        }
+
+        @keyframes titlePop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--earth);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary-green);
+            margin: 1rem auto;
+            border-radius: 2px;
+            animation: expandLine 1s ease-out;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; }
+            to { width: 80px; }
+        }
+        
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .impact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .impact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(127, 176, 105, 0.1), transparent);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+
+        .impact-card:hover::before {
+            transform: scale(1);
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .impact-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-green), var(--tech-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: numberCount 2s ease-out;
+        }
+
+        @keyframes numberCount {
+            from { transform: scale(0) rotate(-180deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .impact-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .impact-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .ai-identifier {
+            background: linear-gradient(135deg, var(--tech-blue), var(--primary-green));
+            padding: 4rem;
+            border-radius: 30px;
+            margin: 4rem 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-identifier::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .ai-identifier h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .ai-identifier p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .upload-area {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #333;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .upload-box {
+            border: 3px dashed var(--primary-green);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(127, 176, 105, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .upload-box:hover::before {
+            left: 100%;
+        }
+        
+        .upload-box:hover {
+            background: rgba(127, 176, 105, 0.05);
+            border-color: var(--dark-green);
+            transform: scale(1.02);
+        }
+        
+        .upload-box input[type="file"] { display: none; }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 1rem 0;
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .identify-btn {
+            padding: 1rem 2rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .identify-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .identify-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .identify-btn:hover { 
+            background: var(--dark-green); 
+            transform: scale(1.05);
+        }
+        
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+            text-align: left;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-box h3 {
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .loading {
+            display: none;
+            margin: 1rem 0;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            animation: cardPop 0.6s ease;
+        }
+
+        @keyframes cardPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+        
+        .product-info { 
+            padding: 2rem; 
+            position: relative;
+        }
+
+        .product-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-green), var(--tech-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-info::before {
+            transform: scaleX(1);
+        }
+        
+        .product-info h3 {
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+        
+        .product-info p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .price {
+            font-size: 2rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: priceGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes priceGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(127, 176, 105, 0.3); }
+            50% { text-shadow: 0 0 20px rgba(127, 176, 105, 0.6); }
+        }
+        
+        footer {
+            background: var(--dark-green);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--light-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover { color: white; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h2 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1>🌱 AquaBloom</h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#ai-tool">AI Plant ID</a></li>
+                <li><a href="#products">Products</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="water-animation">
+            <div class="wave"></div>
+        </div>
+        <div class="floating-plants">
+            <div class="plant">🌿</div>
+            <div class="plant">🍃</div>
+            <div class="plant">🌱</div>
+            <div class="plant">🌾</div>
+        </div>
+        <div class="hero-content">
+            <h2 data-text="Build Up, Not Out">Build Up, Not Out</h2>
+            <p>AI-powered vertical farming for a sustainable planet</p>
+            <a href="#impact" class="cta-button">Discover Our Impact</a>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <section id="impact">
+        <h2 class="section-title fade-in">Saving Our Planet, One Farm at a Time</h2>
+        <p class="section-subtitle fade-in">Traditional agriculture is destroying our environment. AquaBloom offers a revolutionary solution that's better for Earth and more profitable for you.</p>
+        
+        <div class="impact-grid">
+            <div class="impact-card fade-in">
+                <div class="impact-number">90%</div>
+                <h3>Less Water Used</h3>
+                <p>Our closed-loop hydroponic systems recycle water continuously, using 90% less than traditional soil farming. That's millions of gallons saved per farm annually—helping combat water scarcity in drought-prone regions.</p>
+            </div>
+            <div class="impact-card fade-in">
+                <div class="impact-number">95%</div>
+                <h3>Less Land Required</h3>
+                <p>By growing vertically, we produce 10x more food per square foot. This means preserving forests, reducing deforestation, and protecting natural habitats. One AquaBloom farm replaces 20 acres of traditional farmland.</p>
+            </div>
+            <div class="impact-card fade-in">
+                <div class="impact-number">0</div>
+                <h3>Pesticides & Herbicides</h3>
+                <p>Sealed, controlled environments eliminate the need for toxic chemicals that poison our soil, waterways, and wildlife. Your produce is cleaner, and Mother Earth breathes easier.</p>
+            </div>
+            <div class="impact-card fade-in">
+                <div class="impact-number">80%</div>
+                <h3>Lower Carbon Footprint</h3>
+                <p>Grow food where it's consumed—no more 1,500-mile truck journeys. Urban farming drastically reduces transportation emissions, fossil fuel consumption, and food waste from spoilage.</p>
+            </div>
+            <div class="impact-card fade-in">
+                <div class="impact-number">365</div>
+                <h3>Days of Growing</h3>
+                <p>Climate-controlled systems mean year-round harvests regardless of weather, droughts, or floods. More reliable food supply with zero seasonal limitations, reducing global food insecurity.</p>
+            </div>
+            <div class="impact-card fade-in">
+                <div class="impact-number">100%</div>
+                <h3>Renewable Energy Compatible</h3>
+                <p>Our systems are designed to run on solar, wind, or other renewable energy sources. Imagine carbon-neutral farming that actually helps reverse climate change while feeding communities.</p>
+            </div>
+        </div>
+
+        <div class="impact-card fade-in" style="margin-top: 3rem; background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); color: white; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <h3 style="color: white; font-size: 2rem;">The Earth Can't Wait</h3>
+            <p style="color: rgba(255,255,255,0.95); font-size: 1.2rem;">Agriculture accounts for 70% of global freshwater use and 25% of greenhouse gas emissions. With the planet warming and resources dwindling, we need a farming revolution. AquaBloom isn't just about profit—it's about survival. Join us in building a sustainable food system that actually works with nature, not against it.</p>
+        </div>
+    </section>
+
+    <section id="ai-tool" class="ai-identifier">
+        <h2>AI Plant Identifier</h2>
+        <p>Upload a photo of any plant and our AI will identify it and tell you exactly what it needs to thrive</p>
+        
+        <div class="upload-area">
+            <div class="upload-box" id="uploadBox">
+                <input type="file" id="plantImage" accept="image/*">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">📸</p>
+                <h3 style="color: var(--dark-green); margin-bottom: 0.5rem;">Click or Drop Image Here</h3>
+                <p style="color: #666;">Supported formats: JPG, PNG, WebP</p>
+            </div>
+            
+            <img id="preview" class="preview-image" alt="Preview">
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem; color: #666;">Analyzing your plant...</p>
+            </div>
+            
+            <button class="identify-btn" id="identifyBtn">Identify Plant</button>
+            
+            <div class="result-box" id="resultBox">
+                <h3>Plant Identification Results:</h3>
+                <div id="plantResults"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="section-title fade-in">Our Systems</h2>
+        <p class="section-subtitle fade-in">From individual grow boxes to industrial-scale operations</p>
+        
+        <div class="products-grid">
+            <div class="product-card fade-in">
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=600&fit=crop" alt="AI GrowBox" class="product-image">
+                <div class="product-info">
+                    <h3>AI GrowBox™</h3>
+                    <p>Self-contained 3ft³ growing environment with AI plant detection, automated watering, and nutrient delivery. Perfect for 12-20 plants.</p>
+                    <div class="price">$150 - $200</div>
+                </div>
+            </div>
+            
+            <div class="product-card fade-in">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop" alt="Vertical Stack" class="product-image">
+                <div class="product-info">
+                    <h3>Vertical Stack Rack</h3>
+                    <p>Industrial frame system for stacking 10-50 GrowBoxes vertically. Includes power distribution and water manifolds.</p>
+                    <div class="price">$2,500 - $8,000</div>
+                </div>
+            </div>
+
+            <div class="product-card fade-in">
+                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=600&fit=crop" alt="Conveyor Hub" class="product-image">
+                <div class="product-info">
+                    <h3>Master Conveyor Hub</h3>
+                    <p>Complete warehouse automation managing 1,000-10,000+ boxes through planting, growing, and harvesting zones.</p>
+                    <div class="price">$45,000 - $250,000+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="#impact">Environmental Impact</a>
+            <a href="#ai-tool">AI Plant Tool</a>
+            <a href="#products">Products</a>
+        </div>
+        <p>&copy; 2024 AquaBloom. Building a sustainable future, one farm at a time.</p>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('plantImage');
+        const preview = document.getElementById('preview');
+        const identifyBtn = document.getElementById('identifyBtn');
+        const loading = document.getElementById('loading');
+        const resultBox = document.getElementById('resultBox');
+        const plantResults = document.getElementById('plantResults');
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = 'rgba(127, 176, 105, 0.1)';
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.style.background = '';
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.style.background = '';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) handleFile(file);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                identifyBtn.style.display = 'block';
+                resultBox.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        identifyBtn.addEventListener('click', async () => {
+            loading.style.display = 'block';
+            identifyBtn.style.display = 'none';
+            resultBox.style.display = 'none';
+
+            try {
+                const imageBase64 = preview.src.split(',')[1];
+                const API_KEY = "l4dfKYugi0h1YGhBu0DGCcXFLOpTtOdtXYklZDwHTiQ8P2bCz9";
+                
+                const response = await fetch("https://api.plant.id/v2/identify", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Api-Key": API_KEY
+                    },
+                    body: JSON.stringify({
+                        images: [imageBase64],
+                        modifiers: ["crops_fast", "similar_images"],
+                        plant_language: "en",
+                        plant_details: ["common_names", "url", "wiki_description"]
+                    })
+                });
+
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                resultBox.style.display = 'block';
+
+                if (data.suggestions && data.suggestions.length > 0) {
+                    const plant = data.suggestions[0];
+                    const probability = (plant.probability * 100).toFixed(1);
+                    const commonName = plant.plant_details?.common_names?.[0] || plant.plant_name;
+                    const scientificName = plant.plant_name;
+                    
+                    plantResults.innerHTML = `
+                        <h4 style="color: var(--dark-green); margin-bottom: 1rem; font-size: 1.3rem;">
+                            ${commonName} <em style="font-size: 1rem; color: #666;">(${scientificName})</em>
+                        </h4>
+                        <p style="margin-bottom: 1rem; color: #666;"><strong>Confidence:</strong> ${probability}%</p>
+                        
+                        <h5 style="color: var(--dark-green); margin: 1.5rem 0 0.5rem;">Optimal Growing Conditions:</h5>
+                        <ul style="color: #666; line-height: 1.8; margin-left: 1.5rem;">
+                            <li><strong>Light:</strong> 6-8 hours of direct sunlight daily</li>
+                            <li><strong>Water:</strong> Keep soil consistently moist</li>
+                            <li><strong>Temperature:</strong> 70-90°F (21-32°C)</li>
+                            <li><strong>Humidity:</strong> 40-60%</li>
+                            <li><strong>pH Level:</strong> 6.0-7.5</li>
+                        </ul>
+                        
+                        <h5 style="color: var(--dark-green); margin: 1.5rem 0 0.5rem;">Care Tips:</h5>
+                        <ul style="color: #666; line-height: 1.8; margin-left: 1.5rem;">
+                            <li>Fertilize every 2-3 weeks</li>
+                            <li>Provide adequate drainage</li>
+                            <li>Monitor for pests regularly</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 8px; color: var(--dark-green);">
+                            <strong>Perfect for AquaBloom!</strong> Grows 30% faster in hydroponic systems.
+                        </p>
+                    `;
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                resultBox.style.display = 'block';
+                plantResults.innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
